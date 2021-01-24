@@ -1,0 +1,31 @@
+{
+  "name": "simpleblog",
+  "version": "1.0.0",
+  "description": "Simple blog application",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CreepSore/SimpleBlog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "CreepSore",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CreepSore/SimpleBlog/issues"
+  },
+  "homepage": "https://github.com/CreepSore/SimpleBlog#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.4.1",
+    "mariadb": "^2.5.2",
+    "sequelize": "^6.4.0"
+  }
+}

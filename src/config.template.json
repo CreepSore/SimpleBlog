@@ -1,0 +1,15 @@
+{
+    "webConfig": {
+        "listenAddress": "127.0.0.1",
+        "port": 8080,
+        "sessionSecret": "SECRET"
+    },
+    "dbConfig": {
+        "hostname": "localhost",
+        "port": 3306,
+        "username": "username",
+        "password": "password",
+        "database": "database/schema",
+        "dialect": "mariadb"
+    }
+}
