@@ -1,0 +1,15 @@
+{
+    "webConfig": {
+        "listenAddress": "127.0.0.1",
+        "port": 6969,
+        "sessionSecret": "SECRET"
+    },
+    "dbConfig": {
+        "hostname": "localhost",
+        "port": 3306,
+        "username": "root",
+        "password": "",
+        "database": "blog",
+        "dialect": "mariadb"
+    }
+}
