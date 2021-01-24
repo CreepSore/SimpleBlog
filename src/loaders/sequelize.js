@@ -45,7 +45,7 @@ module.exports = class SequelizeLoader {
         User.hasMany(ActionHistory, {foreignKey: "user_uuid"});
         ActionHistory.belongsTo(User, {foreignKey: "user_uuid"});
 
-        sequelize.sync();
+        sequelize.sync({logging: false});
         return sequelize;
     }
 }

@@ -4,6 +4,8 @@ const sessions = require("express-session");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 
+const userMiddleware = require("../web/middleware/user-middleware");
+
 /**
  * @typedef {import("../config/config-model").WebConfig} WebConfig
  */
@@ -48,7 +50,7 @@ module.exports = class SequelizeLoader {
      * @param {express.Application} app
      */
     setupHelperMiddleware(app) {
-        
+        app.use(userMiddleware);
     }
 
     /**
@@ -62,6 +64,6 @@ module.exports = class SequelizeLoader {
      * @param {express.Application} app
      */
     setupApiRoutes(app) {
-
+        app.post("/api/v1/login", require("../web/api/v1/login"));
     }
 }
