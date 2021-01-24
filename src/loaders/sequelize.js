@@ -1,4 +1,5 @@
 "use strict";
+const { seq } = require("async");
 const {Sequelize} = require("sequelize");
 
 /**
@@ -26,6 +27,25 @@ module.exports = class SequelizeLoader {
             dialect: this._dbConfig.dialect
         });
 
+        const {User, setup: setupUser} = require("../model/user");
+        const {Article, setup: setupArticle} = require("../model/article");
+        const {Tag, setup: setupTag} = require("../model/tag");
+        const {ActionHistory, setup: setupActionHistory} = require("../model/action_history");
+        const {Image, setup: setupImage} = require("../model/image");
+
+        setupUser(sequelize);
+        setupArticle(sequelize);
+        setupTag(sequelize);
+        setupActionHistory(sequelize);
+        setupImage(sequelize);
+
+        Article.belongsToMany(Tag, {through: "article_tags", foreignKey: "article_id"});
+        Tag.belongsToMany(Article, {through: "article_tags", foreignKey: "tag_id"});
+
+        User.hasMany(ActionHistory, {foreignKey: "user_uuid"});
+        ActionHistory.belongsTo(User, {foreignKey: "user_uuid"});
+
+        sequelize.sync();
         return sequelize;
     }
 }
