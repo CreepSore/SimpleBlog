@@ -1,4 +1,5 @@
 "use strict";
+const MarkdownIt = require("markdown-it");
 const uuid = require("uuid");
 const {Model, DataTypes} = require("sequelize");
 
@@ -21,6 +22,12 @@ module.exports = {
             data: {
                 type: DataTypes.TEXT({length: "long"}),
                 allowNull: false
+            },
+            dataMarkdownRendered: {
+                type: DataTypes.VIRTUAL,
+                get() {
+                    return new MarkdownIt().render(this.getDataValue("data"));
+                }
             }
         }, {
             sequelize: sequelize,

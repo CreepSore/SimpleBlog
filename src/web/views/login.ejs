@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <%- include("../parts/head"); %>
+</head>
+<body class="h-100">
+    <%- include("../parts/navbar"); %>
+    <main class="d-flex h-100 justify-content-center align-items-center">
+        <div class="card" style="width: 300px">
+            <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <hr>
+                <div class="card-content">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text"><i class="bi bi-people-fill"></i></span>
+                        <input type="text" class="form-control js-data-username" placeholder="Username" autocomplete="off">
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+                        <input type="password" class="form-control js-data-password" placeholder="Password" autocomplete="off">
+                    </div>
+
+                    <div class="btn-group w-100">
+                        <button type="button" class="btn btn-outline-primary js-action-login"><i class="bi bi-unlock-fill"></i> Login</button>
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" style="max-width: 32px;" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/register"><i class="bi bi-plus-circle-fill"></i> Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const post = (url, data) => {
+            return new Promise((res, rej) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', url);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        res(xhr.responseText);
+                    }
+                    else {
+                        rej(xhr.status);
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            });
+        };
+
+        const init = function() {
+            document.querySelector(".js-action-login").addEventListener("click", () => {
+                const username = document.querySelector(".js-data-username").value;
+                const password = document.querySelector(".js-data-password").value;
+
+                post("/api/v1/login", {username, password})
+                    .then(d => {
+                        location.reload();
+                    });
+            });
+        };
+
+        window.addEventListener("load", () => {
+            init();
+        });
+    </script>
+</body>
+</html>

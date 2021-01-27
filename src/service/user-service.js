@@ -1,4 +1,5 @@
 "use strict";
+const crypto = require("crypto");
 const {User} = require("../model/user");
 
 module.exports = class UserService {
@@ -12,13 +13,13 @@ module.exports = class UserService {
     static async loginUser(username, password, useEmail = false) {
         let where = {
             username: username,
-            password: password
+            password: crypto.createHash("SHA256").update(password).digest().toString("hex")
         };
 
         if(useEmail) {
             where = {
                 email: username,
-                password: password
+                password: crypto.createHash("SHA256").update(password).digest().toString("hex")
             };
         }
 
@@ -33,4 +34,23 @@ module.exports = class UserService {
         return false;
     }
 
+    /**
+     * @param {String} username
+     * @param {String} password
+     * @param {String} email
+     * @returns {String|false}
+     */
+    static async registerUser(username, password, email = null) {
+        try {
+            const user = await User.create({
+                username: username,
+                email: email,
+                password: password
+            });
+            return user.uuid;
+        }
+        catch (err) {
+            return false;
+        }
+    }
 };

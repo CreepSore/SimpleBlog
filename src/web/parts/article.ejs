@@ -1,0 +1,11 @@
+<h3>
+    <%=article.title%>
+    <% if(locals.showAdminUtils){ %>
+        <a href="/article/edit/<%=article.uuid%>"><i class="bi bi-pencil-fill link-primary" style="font-size: 0.6em;"></i></a>
+    <% } %>
+</h3>
+<hr class="mt-0">
+<%- article.dataMarkdownRendered %>
+<hr class="m-0">
+<p class="m-0"><small>created @ <%= article.createdAt.toLocaleString("de"); %></small></p>
+<p class="m-0"><small>last modified @ <%= article.updatedAt.toLocaleString("de"); %></small></p>

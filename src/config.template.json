@@ -2,7 +2,8 @@
     "webConfig": {
         "listenAddress": "127.0.0.1",
         "port": 8080,
-        "sessionSecret": "SECRET"
+        "sessionSecret": "SECRET",
+        "imageRoot": "/path/to/images/"
     },
     "dbConfig": {
         "hostname": "localhost",

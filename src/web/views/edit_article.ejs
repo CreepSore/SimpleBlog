@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../parts/head"); %>
+</head>
+<body>
+    <%- include("../parts/navbar"); %>
+    <main class="container">
+        <div class="row">
+            <div class="col<% locals.preview ? "-6" : ""%>">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= locals.article ? "Edit" : "Add" %> Article</h5>
+                        <div class="card-content">
+                            <form class="form" method="POST">
+                                <h6><%= locals.article ? locals.article.uuid : "" %></h6>
+                                <input name="uuid" type="text" value="<%= locals.article ? locals.article.uuid : "" %>" hidden>
+                                <input name="title" class="form-control mb-1" type="text" id="article-title" placeholder="Title" value="<%= locals.article ? locals.article.title : "" %>" autocomplete="off" required>
+                                <textarea name="data" class="form-control mb-1" type="text" id="article-data" style="font-family: 'Courier New', Courier, monospace;"><%= locals.article ? locals.article.data : "" %></textarea>
+                                <button name="save" class="btn btn-outline-primary btn-sm">Save</button>
+                                <% if(locals.article) { %><button name="delete" class="btn btn-outline-danger btn-sm">Delete</button><% } %>
+                                <% if(locals.article) { %><a class="btn btn-outline-secondary btn-sm" href="/article/view/<%=article.uuid%>">View</a><% } %>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% if(locals.showPreview && locals.article) { %>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <%- include("../parts/article"); %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>
