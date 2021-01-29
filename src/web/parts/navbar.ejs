@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="/"><%= locals.nav?.brand %></a>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
             <div class="navbar-nav">
                 <%(locals.nav?.list || []).forEach(navEntry => {%>
                 <a class="nav-link <%=navEntry.active ? "active" : ""%>" href="<%=navEntry.href%>"><%=navEntry.text%></a>

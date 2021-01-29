@@ -1,5 +1,6 @@
 "use strict";
 const MarkdownIt = require("markdown-it");
+const hljs = require("highlight.js");
 const uuid = require("uuid");
 const {Model, DataTypes} = require("sequelize");
 
@@ -23,10 +24,30 @@ module.exports = {
                 type: DataTypes.TEXT({length: "long"}),
                 allowNull: false
             },
+            description: {
+                type: DataTypes.TEXT({length: "long"}),
+                allowNull: true
+            },
+            clicks: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
             dataMarkdownRendered: {
                 type: DataTypes.VIRTUAL,
                 get() {
-                    return new MarkdownIt().render(this.getDataValue("data"));
+                    return new MarkdownIt({
+                        highlight: function (str, lang) {
+                            if (lang && hljs.getLanguage(lang)) {
+                                try {
+                                    const highlighted = hljs.highlight(lang, str);
+                                    return highlighted.value;
+                                } catch (__) {}
+                            }
+
+                            return '';
+                        },
+                        html: true
+                      }).render(this.getDataValue("data"));
                 }
             }
         }, {

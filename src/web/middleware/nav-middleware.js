@@ -27,9 +27,12 @@ const {User} = require("../../model/user");
 module.exports = async(req, res, next) => {
     /** @type {NavList} */
     const nav = {
-        brand: "Oida",
+        brand: "Ehdes.com",
         list: [
-            
+            {
+                href: "/article/index",
+                text: "Article overview"
+            }
         ]
     };
 

@@ -7,5 +7,5 @@
 <hr class="mt-0">
 <%- article.dataMarkdownRendered %>
 <hr class="m-0">
-<p class="m-0"><small>created @ <%= article.createdAt.toLocaleString("de"); %></small></p>
-<p class="m-0"><small>last modified @ <%= article.updatedAt.toLocaleString("de"); %></small></p>
+<p class="m-0"><small>created @ <%= article.createdAt.toLocaleString("de"); %>; last modified @ <%= article.updatedAt.toLocaleString("de"); %></small></p>
+<p class="m-0"><small><%= article.clicks %> clicks</small></p>

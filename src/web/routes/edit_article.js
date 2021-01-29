@@ -1,6 +1,7 @@
 "use strict";
 
 const { Article } = require("../../model/article");
+const { Tag } = require("../../model/tag");
 
 /**
  * @typedef {import("express").Request} Request
@@ -20,12 +21,18 @@ module.exports = {
             return res.redirect("/");
         }
 
-        const article = await Article.findByPk(req.params.articleId);
+        const article = await Article.findByPk(req.params.articleId, {
+            include: [Tag]
+        });
+
+        const tags = await Tag.findAll({order: [["name", "asc"]]});
+
         if(!article) {
             return res.redirect("/");
         }
         res.render("edit_article", {
             article,
+            tags,
             nav: req.nav,
             showPreview: true
         });
@@ -45,7 +52,8 @@ module.exports = {
             const article = await Article.findByPk(req.body.uuid);
             await article.update({
                 title: req.body.title,
-                data: req.body.data
+                data: req.body.data,
+                description: req.body.description
             }, {
                 where: {uuid: req.body.uuid}
             });

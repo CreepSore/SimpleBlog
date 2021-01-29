@@ -2,7 +2,7 @@
 const path = require("path");
 const express = require("express");
 const sessions = require("express-session");
-const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const helmet = require("helmet");
 
 const userMiddleware = require("../web/middleware/user-middleware");
@@ -33,11 +33,20 @@ module.exports = class SequelizeLoader {
             saveUninitialized: false,
             resave: false
         }));
+        app.use(helmet({
+            contentSecurityPolicy: false
+        }));
+        app.use(fileUpload({
+            abortOnLimit: true,
+            safeFileNames: true,
+            preserveExtension: true,
+            createParentPath: true
+        }));
         app.use(express.static(path.join(__dirname, "..", "web", "static")));
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({extended: true}));
-        app.use(bodyParser.text());
-        app.use(bodyParser.raw());
+        app.use(express.json());
+        app.use(express.urlencoded({extended: true}));
+        app.use(express.text());
+        app.use(express.raw());
         app.use(helmet({
             // TODO: Disable this after testing
             contentSecurityPolicy: false
@@ -78,6 +87,7 @@ module.exports = class SequelizeLoader {
         app.get("/article/new", require("../web/routes/add_article").get);
         app.post("/article/edit/:articleId", require("../web/routes/edit_article").post);
         app.post("/article/new", require("../web/routes/add_article").post);
+        app.get("/article/index", require("../web/routes/index_article"));
     }
 
     /**
@@ -87,6 +97,6 @@ module.exports = class SequelizeLoader {
         app.post("/api/v1/login", require("../web/api/v1/login"));
         app.post("/api/v1/register", require("../web/api/v1/register"));
         app.get("/api/v1/image/:imageId", require("../web/api/v1/image").get);
-        app.post("/api/v1/image/:imageId", require("../web/api/v1/image").post);
+        app.post("/api/v1/image", require("../web/api/v1/image").post);
     }
 }

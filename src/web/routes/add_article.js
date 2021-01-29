@@ -1,5 +1,6 @@
 "use strict";
 const { Article } = require("../../model/article");
+const { Tag } = require("../../model/tag");
 
 /**
  * @typedef {import("express").Request} Request
@@ -14,13 +15,16 @@ module.exports = {
      * @param {NextFunction} next
      * @param {ServiceCollection} serviceCollection
      */
-    get: (req, res, next) => {
+    get: async(req, res, next) => {
         if(!req.blog?.user) {
             return res.redirect("/");
         }
 
+        const tags = await Tag.findAll({order: [["name", "asc"]]});
+
         res.render("edit_article", {
-            nav: req.nav
+            nav: req.nav,
+            tags
         });
     },
     /**
@@ -36,7 +40,8 @@ module.exports = {
         
         const article = await Article.create({
             title: req.body.title,
-            data: req.body.data
+            data: req.body.data,
+            description: req.body.data
         });
         res.redirect(`/article/edit/${article.uuid}`);
     }
