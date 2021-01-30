@@ -1,0 +1,76 @@
+<div class="modal" id="image-browser-modal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="w-100 table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Preview</td>
+                                <td>Uuid</td>
+                                <td>Description</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% images.forEach(image => { %>
+                            <tr>
+                                <td>
+                                    <a class="d-flex" style="max-height: 64px;" href="/api/v1/image/<%=image.uuid%>"><img class="img-fluid d-block" src="/api/v1/image/<%=image.uuid%>" alt="Invalid Image"></a>
+                                </td>
+                                <td><%=image.uuid%></td>
+                                <td><%=image.description%></td>
+                                <td><i class="bi bi-clipboard js-action-clipboard link-primary" style="cursor: pointer;" data-text="![](/api/v1/image/<%=image.uuid%>)"></i></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#image-upload-modal">Add new Image</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="image-upload-modal" tabindex="-1">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form enctype="multipart/form-data" action="/api/v1/image" method="POST">
+                    <div class="input-group">
+                        <input class="form-control" type="file" name="image">
+                    </div>
+                    <textarea class="form-control" name="description" data-autoresize placeholder="Description"></textarea>
+                    <button class="btn btn-primary" id="image-upload-button">Upload</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener("load", () => {
+        const modal = document.querySelector("#image-browser-modal");
+        modal.querySelectorAll(".js-action-clipboard").forEach(x => x.addEventListener("click", () => {
+            let copyElement = document.createElement("input");
+            modal.appendChild(copyElement);
+            copyElement.value = x.dataset.text;
+            copyElement.select();
+            copyElement.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            modal.removeChild(copyElement);
+        }));
+    });
+</script>

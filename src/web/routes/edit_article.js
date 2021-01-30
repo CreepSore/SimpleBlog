@@ -2,6 +2,7 @@
 
 const { Article } = require("../../model/article");
 const { Tag } = require("../../model/tag");
+const { Image } = require("../../model/image");
 
 /**
  * @typedef {import("express").Request} Request
@@ -25,6 +26,10 @@ module.exports = {
             include: [Tag]
         });
 
+        const images = await Image.findAll({
+            order: [["createdAt", "DESC"]]
+        });
+
         const tags = await Tag.findAll({order: [["name", "asc"]]});
 
         if(!article) {
@@ -34,7 +39,8 @@ module.exports = {
             article,
             tags,
             nav: req.nav,
-            showPreview: true
+            showPreview: true,
+            images: images
         });
     },
     /**

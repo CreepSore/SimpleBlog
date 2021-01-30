@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     <%- include("../parts/head"); %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </head>
 <body>
     <%- include("../parts/navbar"); %>
+    <% if(locals.images) { %>
+        <%- include("../parts/image-browser-modal", {images}); %>
+    <% } %>
     <main class="container">
         <div class="row">
             <div class="col<% locals.preview ? "-6" : ""%> mb-3">
@@ -17,10 +22,14 @@
                                 <input name="uuid" type="text" value="<%= locals.article ? locals.article.uuid : "" %>" hidden>
                                 <input name="title" class="form-control mb-1" type="text" id="article-title" placeholder="Title" value="<%= locals.article ? locals.article.title : "" %>" autocomplete="off" required>
                                 <textarea name="description" class="form-control mb-1" type="text" id="article-description" style="font-family: 'Courier New', Courier, monospace;" data-autoresize placeholder="Description"><%= locals.article ? locals.article.description : "" %></textarea>
-                                <textarea name="data" class="form-control mb-1" type="text" id="article-data" style="font-family: 'Courier New', Courier, monospace;" data-autoresize placeholder="Text" required><%= locals.article ? locals.article.data : "" %></textarea>
+                                <!--
+                                    <textarea name="data" class="form-control mb-1" type="text" id="article-data" style="font-family: 'Courier New', Courier, monospace;" data-autoresize placeholder="Text" required><%= locals.article ? locals.article.data : "" %></textarea>
+                                -->
+                                <textarea id="article-data" name="data" class="form-control mb-1" placeholder="Text" required><%= locals.article ? locals.article.data : "" %></textarea>
                                 <button name="save" class="btn btn-outline-primary btn-sm">Save</button>
                                 <% if(locals.article) { %><button name="delete" class="btn btn-outline-danger btn-sm">Delete</button><% } %>
                                 <% if(locals.article) { %><a class="btn btn-outline-secondary btn-sm" href="/article/view/<%=article.uuid%>">View</a><% } %>
+                                <% if(locals.images) { %><button class="btn btn-outline-secondary btn-sm" onclick="return false;" data-bs-toggle="modal" data-bs-target="#image-browser-modal">Browse Images</button><% } %>
                             </form>
                         </div>
                     </div>
@@ -51,8 +60,13 @@
             });
         }
 
+        function setupEditor() {
+            new SimpleMDE({element: document.querySelector("#article-data")});
+        }
+
         window.addEventListener("load", () => {
             addAutoResize();
+            setupEditor();
         });
     </script>
 </body>

@@ -24,13 +24,14 @@ module.exports = class ImageService {
     }
 
     async getImagePathFromUuid(uuid) {
-        return path.join(this._imageRoot, await Image.findByPk(uuid).relativePath);
+        const image = await Image.findByPk(uuid);
+        return path.join(this._imageRoot, image.relativePath);
     }
 
     /**
      * @param {File} uploadedFile
      */
-    async saveImage(uploadedFile) {
+    async saveImage(uploadedFile, description = "") {
         try {
             const imageId = uuid.v4();
             const ext = uploadedFile.name.split(".").slice(1).join(".");
@@ -38,7 +39,8 @@ module.exports = class ImageService {
             await uploadedFile.mv(path.join(this._imageRoot, relativePath));
             const insertedImage = await Image.create({
                 uuid: imageId,
-                relativePath: relativePath
+                relativePath,
+                description
             });
             return insertedImage;
         }

@@ -2,7 +2,8 @@
     "webConfig": {
         "listenAddress": "127.0.0.1",
         "port": 8500,
-        "sessionSecret": "SECRET"
+        "sessionSecret": "SECRET",
+        "imageRoot": "/opt/SimpleBlog/images/"
     },
     "dbConfig": {
         "hostname": "localhost",

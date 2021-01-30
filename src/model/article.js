@@ -1,5 +1,6 @@
 "use strict";
 const MarkdownIt = require("markdown-it");
+const mdImsize = require("markdown-it-imsize");
 const hljs = require("highlight.js");
 const uuid = require("uuid");
 const {Model, DataTypes} = require("sequelize");
@@ -47,7 +48,7 @@ module.exports = {
                             return '';
                         },
                         html: true
-                      }).render(this.getDataValue("data"));
+                      }).use(mdImsize).render(this.getDataValue("data"));
                 }
             }
         }, {
