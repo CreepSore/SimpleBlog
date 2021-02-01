@@ -32,20 +32,28 @@ module.exports = class SequelizeLoader {
         const {Tag, setup: setupTag} = require("../model/tag");
         const {ActionHistory, setup: setupActionHistory} = require("../model/action_history");
         const {Image, setup: setupImage} = require("../model/image");
+        const {Comment, setup: setupComment} = require("../model/comment");
 
         setupUser(sequelize);
         setupArticle(sequelize);
         setupTag(sequelize);
         setupActionHistory(sequelize);
         setupImage(sequelize);
+        setupComment(sequelize);
 
         Article.belongsToMany(Tag, {through: "article_tags", foreignKey: "article_id"});
         Tag.belongsToMany(Article, {through: "article_tags", foreignKey: "tag_id"});
 
+        Article.hasMany(Comment, {foreignKey: "a_id"});
+        Comment.belongsTo(Article, {foreignKey: "a_id"});
+
+        User.hasMany(Comment, {foreignKey: "u_id"});
+        Comment.belongsTo(User, {foreignKey: "u_id"});
+
         User.hasMany(ActionHistory, {foreignKey: "user_uuid"});
         ActionHistory.belongsTo(User, {foreignKey: "user_uuid"});
 
-        sequelize.sync();
+        sequelize.sync({logging: false});
         return sequelize;
     }
 }

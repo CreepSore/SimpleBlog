@@ -1,0 +1,14 @@
+<div class="card col-3 me-1 mb-1 bg-dark text-light border-secondary" style="max-width: 400px; width: 400px;">
+    <div class="card-body">
+        <h5 class="card-header ps-0 mb-3">
+            <%=article.title%>
+        </h5>
+        <div class="card-text">
+            <%= `${article.description.substring(0, 100)}${article.description.length > 100 ? "..." : ""}` %>
+        </div>
+        <div class="card-footer mt-3 ps-0">
+            <p class="m-0"><small><%= article.createdAt.toLocaleString("en"); %>; <%= article.clicks %> clicks</small></p>
+            <a href="/article/view/<%=article.uuid%>" class="stretched-link"></a>
+        </div>
+    </div>
+</div>

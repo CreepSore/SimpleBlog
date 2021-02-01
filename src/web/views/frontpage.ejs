@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../parts/head"); %>
+</head>
+<body class="bg-dark text-light">
+    <%- include("../parts/navbar"); %>
+    <main class="d-flex">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-10">
+                    <% articles.forEach(article => { %>
+                    <div class="card col mb-3 text-light bg-dark border-secondary">
+                        <div class="card-body">
+                            <div class="card-content">
+                                <%- include("../parts/article", {article, showAdminUtils: !!user}); %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+                <div class="col-2">
+                    <%- include("../parts/actionSidebar"); %>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

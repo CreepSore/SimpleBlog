@@ -5,6 +5,7 @@
  * @property {String} listenAddress
  * @property {Number} port
  * @property {String} sessionSecret
+ * @property {String} imageRoot
  */
 
 /**
@@ -23,7 +24,8 @@ module.exports = class ConfigModel {
         this.webConfig = {
             listenAddress: "127.0.0.1",
             port: 8080,
-            sessionSecret: "SECRET"
+            sessionSecret: "SECRET",
+            imageRoot: "/path/to/images/"
         };
 
         /** @type {DbConfig} */

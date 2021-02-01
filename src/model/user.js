@@ -21,7 +21,7 @@ module.exports = {
                 type: DataTypes.STRING(64),
                 allowNull: true,
                 set(value) {
-                    this.setDataValue("password", crypto.createHash("SHA256").update(value).digest().toString());
+                    this.setDataValue("password", crypto.createHash("SHA256").update(value).digest().toString("hex"));
                 }
             }
         }, {
