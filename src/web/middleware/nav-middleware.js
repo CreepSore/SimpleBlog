@@ -41,6 +41,11 @@ module.exports = async(req, res, next) => {
             href: "/article/new",
             text: "New Article"
         });
+
+        nav.list.push({
+            href: "/statistics",
+            text: "Statistics"
+        });
     }
     else {
         nav.list.push({

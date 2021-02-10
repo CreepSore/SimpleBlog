@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../parts/head"); %>
+    <style>
+        .tooltip-inner {
+            max-width: 350px;
+            width: 350px; 
+            text-align: start;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+    <%- include("../parts/navbar"); %>
+    <main class="container-fuid">
+        <table class="table table-hover table-sm table-dark">
+            <thead>
+                <tr>
+                    <td>Ip</td>
+                    <td>Date</td>
+                    <td>Data</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% statistics.forEach(entry => { %>
+                <tr>
+                    <td><%= entry.ip %></td>
+                    <td><%= entry.date.toISOString() %></td>
+                    <td style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<pre><%= JSON.stringify(entry.additionalData, null, 2).replace(/\n/g, "<br>") %></pre>"><%= JSON.stringify(entry.additionalData) %></td>        
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </main>
+    <script>
+        window.addEventListener("load", () => {
+            [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

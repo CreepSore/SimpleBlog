@@ -33,6 +33,7 @@ module.exports = class SequelizeLoader {
         const {ActionHistory, setup: setupActionHistory} = require("../model/action_history");
         const {Image, setup: setupImage} = require("../model/image");
         const {Comment, setup: setupComment} = require("../model/comment");
+        const {RequestStatistics, setup: setupRequestStatistics} = require("../model/request-statistics");
 
         setupUser(sequelize);
         setupArticle(sequelize);
@@ -40,6 +41,7 @@ module.exports = class SequelizeLoader {
         setupActionHistory(sequelize);
         setupImage(sequelize);
         setupComment(sequelize);
+        setupRequestStatistics(sequelize);
 
         Article.belongsToMany(Tag, {through: "article_tags", foreignKey: "article_id"});
         Tag.belongsToMany(Article, {through: "article_tags", foreignKey: "tag_id"});

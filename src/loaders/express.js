@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const userMiddleware = require("../web/middleware/user-middleware");
 const serviceMiddleware = require("../web/middleware/service-middleware");
 const navMiddleware = require("../web/middleware/nav-middleware");
+const trackerMiddleware = require("../web/middleware/ip-middleware");
 
 const ImageService = require("../service/image-service");
 
@@ -71,6 +72,7 @@ module.exports = class SequelizeLoader {
         app.use((req, res, next) => serviceMiddleware(req, res, next, {
             imageService: new ImageService(this._webConfig.imageRoot)
         }));
+        app.use(trackerMiddleware);
         app.use(userMiddleware);
         app.use(navMiddleware);
     }
@@ -88,6 +90,7 @@ module.exports = class SequelizeLoader {
         app.post("/article/edit/:articleId", require("../web/routes/edit_article").post);
         app.post("/article/new", require("../web/routes/add_article").post);
         app.get("/article/index", require("../web/routes/index_article"));
+        app.get("/statistics", require("../web/routes/statistics"));
     }
 
     /**

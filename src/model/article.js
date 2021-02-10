@@ -41,7 +41,7 @@ module.exports = {
                             if (lang && hljs.getLanguage(lang)) {
                                 try {
                                     const highlighted = hljs.highlight(lang, str);
-                                    return highlighted.value;
+                                    return highlighted.value.replace("<pre>", "<pre class=\"hljs\">");
                                 } catch (__) {}
                             }
 
