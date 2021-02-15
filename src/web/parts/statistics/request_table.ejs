@@ -1,0 +1,32 @@
+<% if(locals.showFilter) { %>
+<div id="filter-container">
+    <span id="js-filter-template" class="rounded-pill bg-danger ps-2 pe-1 me-1 text-light" hidden> <i class="bi bi-x js-rm-ip-filter" style="vertical-align: text-bottom; cursor: pointer;" data-ip="127.0.0.1" data-disabled="true"></i></span>
+</div>
+<% } %>
+<table class="table table-hover table-sm table-light">
+    <thead>
+        <tr>
+            <% if(locals.showFilter) { %><th></th><% } %>
+            <th>Ip</th>
+            <th>Date</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% requests.forEach((entry, i) => { %>
+        <tr>
+            <% if(locals.showFilter) { %><td style="width: 1px; white-space: nowrap;"><i class="bi bi-funnel js-add-ip-filter" style="cursor: pointer;" data-ip="<%=entry.ip%>"></i></td><% } %>
+            <td style="font-family: 'Courier New', Courier, monospace; width: 1px; white-space: nowrap;"><%= entry.ip %></td>
+            <td style="width: 1px; white-space: nowrap;"><%= entry.date.toLocaleString("de") %></td>
+            <td>
+                <div class="w-100 text-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<pre><%= JSON.stringify(entry.additionalData, null, 2).replace(/\n/g, "<br>") %></pre>">
+                    <i class="bi bi-eye-fill link-primary" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#rc-<%=i%>"></i>
+                </div>
+                <div class="collapse" id="rc-<%=i%>">
+                    <pre><%- JSON.stringify(entry.additionalData, null, 2).replace(/\n/g, "<br>"); %>   </pre>
+                </div>
+            </td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>

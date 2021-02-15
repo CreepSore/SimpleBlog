@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../../parts/head"); %>
+    <style>
+        .tooltip-inner {
+            max-width: 500px;
+            width: 500px; 
+            text-align: start;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+    <%- include("../../parts/navbar"); %>
+    <main class="container-fluid text-dark">
+        <div class="container-fluid">
+            <div class="row justify-content-around">
+                <div class="card col-12">
+                    <div class="card-body">
+                        <h5 class="card-header">Requests</h5>
+                        <div class="card-content">
+                            <%- include("../../parts/statistics/request_table", {requests, showFilter: false}); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        window.addEventListener("load", () => {
+            [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

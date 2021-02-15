@@ -10,7 +10,7 @@ module.exports = {
     setup: (sequelize) => {
         RequestStatistics.init({
             ip: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 allowNull: false,
                 set(ip) {
                     this.setDataValue("ip", StatisticsService.ipToNumber(ip));

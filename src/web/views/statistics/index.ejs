@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../../parts/head"); %>
+    <style>
+        .tooltip-inner {
+            max-width: 350px;
+            width: 350px; 
+            text-align: start;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+    <%- include("../../parts/navbar"); %>
+    <main class="container-fluid text-dark">
+        <div class="container-fluid">
+            <div class="row justify-content-around">
+                <div class="card col-lg-5 col-12">
+                    <div class="card-body">
+                        <h5 class="card-header">Requests</h5>
+                        <div class="card-content">
+                            <%- include("../../parts/statistics/request_table", {requests, showFilter: true}); %>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-5 col-12">
+                    <div class="card-body">
+                        <h5 class="card-header">All Ips</h5>
+                        <div class="card-content">
+                            <table class="table table-hover table-sm table-light">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Total: <%=ips.length%></th>
+                                        <th scope="col">Ip</th>
+                                        <th scope="col">First Requst</th>
+                                        <th scope="col">Last Request</th>
+                                        <th scope="col">Total Requests</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% ips.forEach((entry, i) => { %>
+                                    <tr>
+                                        <th scope="row"><%= i + 1 %></th>
+                                        <td style="font-family: 'Courier New', Courier, monospace;"><a href="/statistics/ip/<%=entry.ip%>"><%= entry.ip %></a></td>
+                                        <td><%= entry.dataValues.firstRequest.toLocaleString("de") %></td>
+                                        <td><%= entry.dataValues.lastRequest.toLocaleString("de") %></td>
+                                        <td><%= entry.dataValues.count %></td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const getFilter = function() {
+            return (new URLSearchParams(window.location.search).get("filter") || "").split(",").filter(x => !!x);
+        };
+
+        const setFilter = function(filter) {
+            let params = new URLSearchParams(window.location.search);
+            params.delete("filter");
+            params.append("filter", filter.join(","));
+            window.location.search = params.toString();
+        };
+
+        const addToFilter = function(ip) {
+            const filter = getFilter();
+            filter.push(ip);
+            setFilter(filter);
+        };
+
+        const removeFromFilter = function(ip) {
+            const filter = getFilter();
+            const index = filter.indexOf(ip);
+            if(index === -1) {
+                return;
+            }
+            filter.splice(index, 1);
+            setFilter(filter);
+        }
+
+        const setupFilterPills = function() {
+            const filter = getFilter().forEach(ip => {
+                const filterContainer = document.querySelector("#filter-container");
+                const template = document.querySelector("#js-filter-template");
+                const finalNode = template.cloneNode(true);
+                finalNode.innerHTML = `${ip} ${finalNode.innerHTML}`;
+                finalNode.childNodes[1].dataset.ip = ip;
+                finalNode.hidden = false;
+                filterContainer.append(finalNode);
+            });
+
+            document.querySelectorAll(".js-rm-ip-filter").forEach(x => x.addEventListener("click", x => {
+                x.srcElement.parentElement.hidden = true;
+                removeFromFilter(x.srcElement.dataset.ip);
+            }));
+
+            document.querySelectorAll(".js-add-ip-filter").forEach(x => x.addEventListener("click", x => {
+                addToFilter(x.srcElement.dataset.ip);
+            }));
+        };
+
+        window.addEventListener("load", () => {
+            setupFilterPills();
+            [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

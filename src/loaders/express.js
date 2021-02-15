@@ -90,7 +90,8 @@ module.exports = class SequelizeLoader {
         app.post("/article/edit/:articleId", require("../web/routes/edit_article").post);
         app.post("/article/new", require("../web/routes/add_article").post);
         app.get("/article/index", require("../web/routes/index_article"));
-        app.get("/statistics", require("../web/routes/statistics"));
+        app.get("/statistics", require("../web/routes/statistics/index"));
+        app.get("/statistics/ip/:ip", require("../web/routes/statistics/ip"));
     }
 
     /**
