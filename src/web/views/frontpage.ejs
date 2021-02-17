@@ -8,7 +8,7 @@
     <main class="d-flex">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-10-disabled">
+                <div class="col-12 col-xl-8">
                     <% articles.forEach(article => { %>
                     <div class="card col mb-3 text-light bg-dark border-secondary">
                         <div class="card-body">
@@ -19,11 +19,13 @@
                     </div>
                     <% }); %>
                 </div>
-                <!--
-                <div class="col-2">
-                    <%- include("../parts/actionSidebar"); %>
+
+                <div class="col-xl col-xl-4">
+                    <%- include("../parts/utils/calendar", {
+                        dateFormatter,
+                        startDate
+                    }); %>
                 </div>
-                -->
             </div>
         </div>
     </main>

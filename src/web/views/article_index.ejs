@@ -8,7 +8,7 @@
     <main class="container text-dark">
         <div class="row">
             <% articles.forEach(article => { %>
-                <%- include("../parts/article_preview", {article}) %>
+                <%- include("../parts/utils/article_preview", {article}) %>
             <% }); %>
         </div>
     </main>

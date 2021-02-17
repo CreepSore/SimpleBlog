@@ -1,0 +1,63 @@
+<%
+const months = {
+    short: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEC"],
+    long: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"]
+};
+const days = {
+    short: ["SU","MO", "TU", "WE", "TH", "FR", "SA"],
+    long: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+};
+
+let currentDate = locals.startDate;
+if(!currentDate) {
+    currentDate = new Date();
+    currentDate.setDate(1);
+    locals.startDate = currentDate;
+}
+
+if(!locals.dateFormatter) {
+    /**
+     * @param {Date} startDate
+     * @param {Date} date
+     * @returns {{class: Array<String>, href: String|null}}
+     */
+    locals.dateFormatter = (startDate, date) => {
+        return {
+            class: [],
+            href: `/${date.toISOString()}`
+        };
+    };
+}
+%>
+
+<div class="border border-primary rounded bg-dark text-light">
+    <h5 class="border-bottom border-primary ps-1 pb-1 m-1"><%= months.long[currentDate.getMonth()] %></h5>
+    <div class="container">
+        <div class="row">
+            <%
+                const offset = currentDate.getDay();
+                for(let i = 0; i < days.short.length; i++) {
+            %>
+            <div class="col text-center"><%= days.short[((offset + i) % 7)] %></div>
+            <% } %>
+        </div>
+        <% for(let i = 0, c = 0; i < 6; i++) { %>
+        <div class="row">
+            <%
+                for(let j = 0; j < 7; j++, c++) {
+                    let formattedDate = locals.dateFormatter(locals.startDate, currentDate, c);
+            %>
+                    <<%- formattedDate?.href ? `a href="${formattedDate?.href}"` : "div" %> 
+                        class="col text-center bg-dark align-middle <%= (formattedDate.class || []).join(" ") %>"
+                        style="height: 2em; line-height: 2em;">
+                        <%= currentDate.getDate() %>
+                    </<%- formattedDate?.href ? "a" : "div" %>>
+            <%
+                    currentDate.setDate(currentDate.getDate() + 1)
+                    currentDate = new Date(currentDate);
+                }
+            %>
+        </div>
+        <% } %>
+    </div>
+</div>
