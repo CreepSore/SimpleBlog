@@ -1,4 +1,5 @@
 "use strict";
+const dns = require("dns");
 const StatisticsService = require("../../service/statistics-service");
 const {RequestStatistics} = require("../../model/request-statistics");
 
@@ -22,11 +23,17 @@ module.exports = async(req, res, next) => {
         query: req.query,
         session: req.session
     };
+    const ip = StatisticsService.getIpFromRequest(req);
 
-    RequestStatistics.create({
-        ip: StatisticsService.getIpFromRequest(req),
-        date: new Date(),
-        additionalData: additionalData
+    dns.reverse(ip, (err, hostnames) => {
+        let result = !err ? hostnames : [];
+        additionalData.hostnames = hostnames;
+
+        RequestStatistics.create({
+            ip,
+            date: new Date(),
+            additionalData: additionalData
+        });
     });
 
     next();

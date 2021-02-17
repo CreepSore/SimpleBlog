@@ -23,6 +23,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card col-lg-5 col-12">
                     <div class="card-body">
                         <h5 class="card-header">All Ips</h5>
@@ -32,6 +33,7 @@
                                     <tr>
                                         <th scope="col">Total: <%=ips.length%></th>
                                         <th scope="col">Ip</th>
+                                        <th scope="col">Hostnames</th>
                                         <th scope="col">First Requst</th>
                                         <th scope="col">Last Request</th>
                                         <th scope="col">Total Requests</th>
@@ -42,6 +44,7 @@
                                     <tr>
                                         <th scope="row"><%= i + 1 %></th>
                                         <td style="font-family: 'Courier New', Courier, monospace;"><a href="/statistics/ip/<%=entry.ip%>"><%= entry.ip %></a></td>
+                                        <td><%= (entry?.additionalData?.hostnames || []).join(", ") %></td>
                                         <td><%= entry.dataValues.firstRequest.toLocaleString("de") %></td>
                                         <td><%= entry.dataValues.lastRequest.toLocaleString("de") %></td>
                                         <td><%= entry.dataValues.count %></td>

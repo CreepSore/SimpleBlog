@@ -38,7 +38,7 @@ if(!locals.dateFormatter) {
                 const offset = currentDate.getDay();
                 for(let i = 0; i < days.short.length; i++) {
             %>
-            <div class="col text-center"><%= days.short[((offset + i) % 7)] %></div>
+            <div class="col text-center m-0 p-0" style="height: 2em; line-height: 2em;"><%= days.short[((offset + i) % 7)] %></div>
             <% } %>
         </div>
         <% for(let i = 0, c = 0; i < 6; i++) { %>
